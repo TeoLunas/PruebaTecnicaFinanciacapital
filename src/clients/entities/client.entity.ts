@@ -21,7 +21,9 @@ export class Client {
     @Column('text')
     legalRepresentative: string;
 
-    @Column('text')
+    @Column('text', {
+        default: true
+    })
     active: boolean;
 
 }
