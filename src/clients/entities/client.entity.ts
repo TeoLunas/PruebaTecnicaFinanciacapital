@@ -19,7 +19,7 @@ export class Client {
     addres: string;
 
     @Column('text')
-    LegalRepresentative: string;
+    legalRepresentative: string;
 
     @Column('text')
     active: boolean;
