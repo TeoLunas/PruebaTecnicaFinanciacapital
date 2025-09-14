@@ -30,6 +30,7 @@ export class ClientsService {
     try {
       const { limit = 10, offset = 0 } = paginationDto;
       const clients = await this.clientRepository.find({
+        where: {active: true},
         take: limit,
         skip: offset
       });
