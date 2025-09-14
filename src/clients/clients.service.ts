@@ -5,6 +5,7 @@ import { UpdateClientDto } from './dto/update-client.dto';
 import { Client } from './entities/client.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { catchError } from 'rxjs';
 
 @Injectable()
 export class ClientsService {
@@ -48,8 +49,22 @@ export class ClientsService {
     return client;
   }
 
-  update(id: number, updateClientDto: UpdateClientDto) {
-    return `This action updates a #${id} client`;
+  async update(id: number, updateClientDto: UpdateClientDto) {
+    const client = await this.clientRepository.preload({
+      id: id,
+      ...updateClientDto 
+    });
+
+    if(!client)
+      throw new NotFoundException('Cliente a actualizar no encontrado')
+
+    try{
+      await this.clientRepository.save(client);
+      return client;
+    }
+    catch(error){
+      this.handlerDBExceptios(error);
+    }
   }
 
   remove(id: number) {
