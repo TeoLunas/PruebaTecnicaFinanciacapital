@@ -5,6 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { EnvConfiguration } from './config/app.config';
 import { ClientsModule } from './clients/clients.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
@@ -29,6 +30,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     }),
 
     ClientsModule,
+
+    CommonModule,
   ],
   controllers: [AppController],
   providers: [AppService],
