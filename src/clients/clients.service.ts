@@ -67,8 +67,15 @@ export class ClientsService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} client`;
+  async remove(id: number) {
+    const client = await this.findOne(id);
+
+    if(!client)
+      throw new NotFoundException('Cliente a eliminar no encontrado');
+
+    client.active = false;
+
+    this.update(id, client);
   }
 
 
