@@ -9,7 +9,7 @@ export class Client {
     @Column('text')
     name: string;
 
-    @Column('text')
+    @Column('text', {unique: true})
     email: string;
 
     @Column('text')
