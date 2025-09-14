@@ -1,5 +1,5 @@
 import { PaginationDto } from './../common/dtos/pagination.dto';
-import { BadRequestException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
 import { Client } from './entities/client.entity';
@@ -27,7 +27,7 @@ export class ClientsService {
 
   async findAll(paginationDto: PaginationDto) {
     try {
-    const {limit= 10, offset= 0} = paginationDto;
+      const { limit = 10, offset = 0 } = paginationDto;
       const clients = await this.clientRepository.find({
         take: limit,
         skip: offset
@@ -38,8 +38,14 @@ export class ClientsService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} client`;
+  async findOne(id: number) {
+
+    const client = await this.clientRepository.findOneBy({ id });
+
+    if (!client)
+      throw new NotFoundException('Cliente no encontrado');
+
+    return client;
   }
 
   update(id: number, updateClientDto: UpdateClientDto) {
