@@ -24,8 +24,13 @@ export class ClientsService {
     }
   }
 
-  findAll() {
-    return `This action returns all clients`;
+  async findAll() {
+    try {
+      const clients = await this.clientRepository.find({});
+      return clients;
+    } catch (error) {
+      this.handlerDBExceptios(error);
+    }
   }
 
   findOne(id: number) {
