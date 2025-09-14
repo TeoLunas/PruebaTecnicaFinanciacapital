@@ -1,3 +1,4 @@
+import { PaginationDto } from './../common/dtos/pagination.dto';
 import { BadRequestException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
@@ -24,9 +25,13 @@ export class ClientsService {
     }
   }
 
-  async findAll() {
+  async findAll(paginationDto: PaginationDto) {
     try {
-      const clients = await this.clientRepository.find({});
+    const {limit= 10, offset= 0} = paginationDto;
+      const clients = await this.clientRepository.find({
+        take: limit,
+        skip: offset
+      });
       return clients;
     } catch (error) {
       this.handlerDBExceptios(error);
