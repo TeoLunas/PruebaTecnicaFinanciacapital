@@ -1,4 +1,4 @@
-import { IsEmail, IsNumber, IsOptional, IsString, Min } from "class-validator";
+import { IsBoolean, IsEmail, IsNumber, IsOptional, IsString, Min } from "class-validator";
 
 export class CreateInvoiceDto {
     @IsNumber()
@@ -92,4 +92,8 @@ export class CreateInvoiceDto {
     @IsNumber()
     @Min(0)
     total: number;
+
+    @IsBoolean()
+    @IsOptional()
+    active: Boolean;
 }
