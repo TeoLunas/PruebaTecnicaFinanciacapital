@@ -7,6 +7,7 @@ import { ClientsModule } from './clients/clients.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CommonModule } from './common/common.module';
 import { InvoicesModule } from './invoices/invoices.module';
+import { DebtorsModule } from './debtors/debtors.module';
 
 @Module({
   imports: [
@@ -35,6 +36,8 @@ import { InvoicesModule } from './invoices/invoices.module';
     CommonModule,
 
     InvoicesModule,
+
+    DebtorsModule,
 
   ],
   controllers: [AppController],
