@@ -95,5 +95,5 @@ export class CreateInvoiceDto {
 
     @IsBoolean()
     @IsOptional()
-    active: Boolean;
+    active?: boolean;
 }
