@@ -1,11 +1,28 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { CreateInvoiceDto } from './dto/create-invoice.dto';
 import { UpdateInvoiceDto } from './dto/update-invoice.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Invoice } from './entities/invoice.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class InvoicesService {
-  create(createInvoiceDto: CreateInvoiceDto) {
-    return 'This action adds a new invoice';
+
+    private readonly logger = new Logger('InvoicesService');
+  
+  constructor(
+    @InjectRepository(Invoice)
+    private readonly invoiceRepository: Repository<Invoice>
+  ){}
+
+  async create(createInvoiceDto: CreateInvoiceDto) {
+    try {
+      const newInvoice = this.invoiceRepository.create(createInvoiceDto);
+      await this.invoiceRepository.save(newInvoice);
+      return newInvoice;
+    } catch (error) {
+        this.handlerDBExceptios(error);
+    }
   }
 
   findAll() {
@@ -23,4 +40,14 @@ export class InvoicesService {
   remove(id: number) {
     return `This action removes a #${id} invoice`;
   }
+
+  private handlerDBExceptios(error: any) {
+      if (error.code === '23505') {
+        this.logger.error(error.detail);
+        throw new BadRequestException(error.detail);
+      }
+  
+      this.logger.error(error);
+      throw new InternalServerErrorException('Unexpected error, check server logs');
+    }
 }
