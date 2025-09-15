@@ -1,28 +1,45 @@
-import { IsBoolean, IsOptional, IsString, MinLength } from "class-validator";
+import { IsBoolean, IsEmail, IsNotEmpty, IsOptional, IsString, Length, MinLength } from "class-validator";
 
 export class CreateClientDto {
 
     @IsString()
-    @MinLength(1)
-    name: string;
+    @IsNotEmpty()
+    nombre: string;
 
     @IsString()
-    @IsOptional()
-    email: string;
+    @IsNotEmpty()
+    @Length(8, 12)
+    rut: string;
 
     @IsString()
-    @IsOptional()
-    phone: string;
+    @IsNotEmpty()
+    giro: string;
 
     @IsString()
-    @IsOptional()
-    addres: string;
+    @IsNotEmpty()
+    direccion: string;
 
     @IsString()
-    @IsOptional()
-    legalRepresentative: string;
+    @IsNotEmpty()
+    comuna: string;
+
+    @IsString()
+    @IsNotEmpty()
+    ciudad: string;
+
+    @IsEmail()
+    @IsNotEmpty()
+    correoElectronico: string;
+
+    @IsString()
+    @IsNotEmpty()
+    telefono: string;
+
+    @IsString()
+    @IsNotEmpty()
+    representanteLegal: string;
 
     @IsBoolean()
     @IsOptional()
-    active: boolean;
+    activo?: boolean;
 }
