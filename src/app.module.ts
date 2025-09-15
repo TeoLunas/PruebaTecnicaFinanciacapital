@@ -6,6 +6,7 @@ import { EnvConfiguration } from './config/app.config';
 import { ClientsModule } from './clients/clients.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CommonModule } from './common/common.module';
+import { InvoicesModule } from './invoices/invoices.module';
 
 @Module({
   imports: [
@@ -32,6 +33,9 @@ import { CommonModule } from './common/common.module';
     ClientsModule,
 
     CommonModule,
+
+    InvoicesModule,
+
   ],
   controllers: [AppController],
   providers: [AppService],
