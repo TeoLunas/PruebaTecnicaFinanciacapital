@@ -5,25 +5,37 @@ export class Client {
 
     @PrimaryGeneratedColumn()
     id: number;
+    
+    @Column('text')
+    nombre: string;
+    
+    @Column('text', { unique: true})
+    rut: string;
+    
+    @Column('text')
+    giro: string;
+    
+    @Column('text')
+    direccion: string;
+    
+    @Column('text')
+    comuna: string;
 
     @Column('text')
-    name: string;
+    ciudad: string;
 
     @Column('text', {unique: true})
-    email: string;
-
+    correoElectronico: string;
+    
     @Column('text')
-    phone: string;
-
+    telefono: string;
+    
     @Column('text')
-    addres: string;
-
-    @Column('text')
-    legalRepresentative: string;
+    representanteLegal: string;
 
     @Column('bool', {
         default: true
     })
-    active: boolean;
+    activo: boolean;
 
 }
