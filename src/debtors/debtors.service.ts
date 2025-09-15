@@ -1,4 +1,5 @@
-import { BadRequestException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { PaginationDto } from './../common/dtos/pagination.dto';
+import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { CreateDebtorDto } from './dto/create-debtor.dto';
 import { UpdateDebtorDto } from './dto/update-debtor.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -25,8 +26,21 @@ export class DebtorsService {
     }
   }
 
-  findAll() {
-    
+  async findAll(paginationDto: PaginationDto) {
+
+    try {
+      const { limit = 10, offset = 0 } = paginationDto;
+
+      const debtors = await this.debtorRepository.find({
+        where: { active: true },
+        skip: limit,
+        take: offset
+      });
+      return debtors;
+    } catch (error) {
+      this.handlerDBExceptios(error);
+    }
+
   }
 
   findOne(id: number) {
