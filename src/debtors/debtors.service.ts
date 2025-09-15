@@ -33,8 +33,8 @@ export class DebtorsService {
 
       const debtors = await this.debtorRepository.find({
         where: { active: true },
-        skip: limit,
-        take: offset
+        take: limit,
+        skip: offset
       });
       return debtors;
     } catch (error) {
@@ -53,8 +53,24 @@ export class DebtorsService {
 
   }
 
-  update(id: number, updateDebtorDto: UpdateDebtorDto) {
-    return `This action updates a #${id} debtor`;
+  async update(id: number, updateDebtorDto: UpdateDebtorDto) {
+    
+    const debtor = await this.debtorRepository.preload({
+      id: id,
+      ...updateDebtorDto
+    });
+
+    if(!debtor)
+      throw new NotFoundException('Deudor a actualizar no encontrado')
+    
+    try{
+      await this.debtorRepository.save(debtor);
+      return debtor;
+    }
+    catch(error){
+      this.handlerDBExceptios(error);
+    }
+
   }
 
   remove(id: number) {
