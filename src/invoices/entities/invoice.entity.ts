@@ -68,4 +68,6 @@ export class Invoice {
     @Column('bigint')
     total: number;
 
+    @Column('boolean', {default: true})
+    active: boolean;
 }
