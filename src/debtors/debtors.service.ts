@@ -32,7 +32,7 @@ export class DebtorsService {
       const { limit = 10, offset = 0 } = paginationDto;
 
       const debtors = await this.debtorRepository.find({
-        where: { active: true },
+        where: { activo: true },
         take: limit,
         skip: offset
       });
@@ -79,7 +79,7 @@ export class DebtorsService {
     if(!debtor)
       throw new NotFoundException('Deudor a eliminar no encontrado');
 
-    debtor.active = false;
+    debtor.activo = false;
 
     this.update(id, debtor);
   }
