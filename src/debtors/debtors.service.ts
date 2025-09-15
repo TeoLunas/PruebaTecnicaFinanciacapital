@@ -73,8 +73,15 @@ export class DebtorsService {
 
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} debtor`;
+  async remove(id: number) {
+    const debtor = await this.findOne(id);
+
+    if(!debtor)
+      throw new NotFoundException('Deudor a eliminar no encontrado');
+
+    debtor.active = false;
+
+    this.update(id, debtor);
   }
 
   private handlerDBExceptios(error: any) {
