@@ -34,6 +34,7 @@ export class InvoicesService {
         take: limit,
         skip: offset
       })
+      return invoices;
     } catch (error) {
       this.handlerDBExceptios(error);
     }
