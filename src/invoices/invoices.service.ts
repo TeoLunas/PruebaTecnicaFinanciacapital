@@ -70,8 +70,16 @@ export class InvoicesService {
 
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} invoice`;
+  async remove(id: number) {
+    const invoice = await this.findOne(id);
+    
+    if(!invoice)
+      throw new NotFoundException('Factura a eliminar no encontrado');
+
+    invoice.active = false;
+
+    this.update(id, invoice);
+
   }
 
   private handlerDBExceptios(error: any) {
