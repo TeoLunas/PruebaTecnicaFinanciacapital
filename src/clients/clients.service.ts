@@ -30,7 +30,7 @@ export class ClientsService {
     try {
       const { limit = 10, offset = 0 } = paginationDto;
       const clients = await this.clientRepository.find({
-        where: {active: true},
+        where: {activo: true},
         take: limit,
         skip: offset
       });
@@ -74,7 +74,7 @@ export class ClientsService {
     if(!client)
       throw new NotFoundException('Cliente a eliminar no encontrado');
 
-    client.active = false;
+    client.activo = false;
 
     this.update(id, client);
   }
