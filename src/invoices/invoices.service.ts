@@ -52,8 +52,22 @@ export class InvoicesService {
 
   }
 
-  update(id: number, updateInvoiceDto: UpdateInvoiceDto) {
-    return `This action updates a #${id} invoice`;
+  async update(id: number, updateInvoiceDto: UpdateInvoiceDto) {
+    const invoice = await this.invoiceRepository.preload({
+      id: id,
+      ...updateInvoiceDto
+    });
+
+    if(!invoice)
+      throw new NotFoundException('Factura a actualizar no encontrada');
+    
+    try {
+      await this.invoiceRepository.save(invoice);
+      return invoice;
+    } catch (error) {
+      this.handlerDBExceptios(error);
+    }
+
   }
 
   remove(id: number) {
