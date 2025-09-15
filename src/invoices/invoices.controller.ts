@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { InvoicesService } from './invoices.service';
 import { CreateInvoiceDto } from './dto/create-invoice.dto';
 import { UpdateInvoiceDto } from './dto/update-invoice.dto';
+import { PaginationDto } from 'src/common/dtos/pagination.dto';
 
 @Controller('invoices')
 export class InvoicesController {
@@ -13,8 +14,8 @@ export class InvoicesController {
   }
 
   @Get()
-  findAll() {
-    return this.invoicesService.findAll();
+  findAll(paginationDto: PaginationDto) {
+    return this.invoicesService.findAll(paginationDto);
   }
 
   @Get(':id')

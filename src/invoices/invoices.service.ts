@@ -1,3 +1,4 @@
+import { PaginationDto } from './../common/dtos/pagination.dto';
 import { BadRequestException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { CreateInvoiceDto } from './dto/create-invoice.dto';
 import { UpdateInvoiceDto } from './dto/update-invoice.dto';
@@ -25,8 +26,18 @@ export class InvoicesService {
     }
   }
 
-  findAll() {
-    return `This action returns all invoices`;
+  async findAll( paginationDto: PaginationDto) {
+    try {
+      const { limit = 10, offset = 0 } = paginationDto;
+      const invoices = await this.invoiceRepository.find({
+        where:{},
+        take: limit,
+        skip: offset
+      })
+    } catch (error) {
+      this.handlerDBExceptios(error);
+    }
+
   }
 
   findOne(id: number) {
