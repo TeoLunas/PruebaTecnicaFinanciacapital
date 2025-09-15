@@ -1,5 +1,5 @@
 import { PaginationDto } from './../common/dtos/pagination.dto';
-import { BadRequestException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { CreateInvoiceDto } from './dto/create-invoice.dto';
 import { UpdateInvoiceDto } from './dto/update-invoice.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -41,8 +41,15 @@ export class InvoicesService {
 
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} invoice`;
+  async findOne(id: number) {
+    
+    const invoice = await this.invoiceRepository.findOneBy({id});
+
+    if(!invoice)
+      throw new NotFoundException('Factura no encontrada');
+    
+    return invoice;
+
   }
 
   update(id: number, updateInvoiceDto: UpdateInvoiceDto) {
