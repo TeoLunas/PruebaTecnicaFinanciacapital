@@ -43,8 +43,14 @@ export class DebtorsService {
 
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} debtor`;
+  async findOne(id: number) {
+    const debtor = await this.debtorRepository.findOneBy({id})
+
+    if (!debtor)
+      throw new NotFoundException('Deudor no encontrado');
+
+    return debtor;
+
   }
 
   update(id: number, updateDebtorDto: UpdateDebtorDto) {
